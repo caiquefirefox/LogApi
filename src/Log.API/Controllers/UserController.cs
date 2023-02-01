@@ -9,8 +9,8 @@ namespace Log.API.Controllers;
 [Route("[controller]")]
 public class UserController : ManagedController
 {
-    private static Credential _Credential = new Credential();
-    private ILogger _Logger;
+    private static readonly Credential _Credential = new();
+    private readonly ILogger _Logger;
 
     public UserController(ILogger<UserController> logger) {
         _Logger = logger;
@@ -39,7 +39,7 @@ public class UserController : ManagedController
         return await TryExecuteOK(async () => await GetUsers());
     }
 
-    private async Task<List<User>> GetUsers(int? limit = 10, int? start = 0)
+    private async Task<List<User>> GetUsers()
     {
         _Logger.LogInformation("Usuários consultados em {DT}", DateTime.Now.ToString("dd/MM/yyyy"));
         return _Credential.Users;
