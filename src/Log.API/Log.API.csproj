@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>355bcbca-713e-4343-8922-8bc486d3aea1</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <DockerfileContext>.</DockerfileContext>
+	  <DockerfileFile>Docker\App\Dockerfile</DockerfileFile>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
@@ -17,6 +19,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Log.Domain\Log.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Docker\InfluxDB\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="..\.dockerignore" Link="Docker\App\.dockerignore" />
   </ItemGroup>
 
 </Project>

@@ -26,6 +26,7 @@ public class UserController : ManagedController
 
     private async Task<User> AddUser(User user)
     {
+        Serilog.Log.Information("Usuário inserido {user} em {DT}", JsonSerializer.Serialize(user), DateTime.Now.ToString("dd/MM/yyyy"));
         _Logger.LogInformation("Usuário inserido {user} em {DT}", JsonSerializer.Serialize(user), DateTime.Now.ToString("dd/MM/yyyy"));
         _Credential.AddUser(user.Username, user.Password);
         return user;
@@ -41,6 +42,7 @@ public class UserController : ManagedController
 
     private async Task<List<User>> GetUsers()
     {
+        Serilog.Log.Information("Usuários consultados em {DT}", DateTime.Now.ToString("dd/MM/yyyy"));
         _Logger.LogInformation("Usuários consultados em {DT}", DateTime.Now.ToString("dd/MM/yyyy"));
         return _Credential.Users;
     }

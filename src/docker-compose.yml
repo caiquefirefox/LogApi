@@ -1,19 +1,18 @@
 version: '3.4'
 
 services:     
-  log.api:
-    #image: ${DOCKER_REGISTRY-}benefitproducerworker
-    container_name: log.api
-    restart: always  
-    ports:
-      - "3772:80"
-    build:
-      context: .  
-      dockerfile: Log.Api/Dockerfile
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-    networks:
-      - log-compose-network
+  #log.api:
+  #  container_name: log.api
+  #  restart: always  
+  #  ports:
+  #    - "3772:80"
+  #  build:
+  #    context: .  
+  #    dockerfile: Log.Infra/Docker/App/Dockerfile
+  #  volumes:
+  #    - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  #  networks:
+  #    - log-compose-network
       
   influxdb:
     image: influxdb:latest
@@ -21,10 +20,10 @@ services:
     restart: always
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=telegraf
+      - DOCKER_INFLUXDB_INIT_USERNAME=logapi
       - DOCKER_INFLUXDB_INIT_PASSWORD=P@ssw0rd
-      - DOCKER_INFLUXDB_INIT_ORG=telegraf
-      - DOCKER_INFLUXDB_INIT_BUCKET=telegraf
+      - DOCKER_INFLUXDB_INIT_ORG=logapi
+      - DOCKER_INFLUXDB_INIT_BUCKET=logapi
       - DOCKER_INFLUXDB_INIT_RETENTION=1w
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=9859DAA6-3B3F-48FE-A981-AE9D31FBB334
     ports:
@@ -34,31 +33,31 @@ services:
     networks:
       - log-compose-network
 
-  telegraf:
-    image: telegraf:latest
-    container_name: telegraf
-    restart: always
-    depends_on:
-      - influxdb
-    links:
-      - influxdb
-    ports:
-      - '8125:8125'
-    volumes:
-      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
-    networks:
-      - log-compose-network
+  #telegraf:
+  #  image: telegraf:latest
+  #  container_name: telegraf
+  #  restart: always
+  #  depends_on:
+  #    - influxdb
+  #  links:
+  #    - influxdb
+  #  ports:
+  #    - '8125:8125'
+  #  volumes:
+  #    - Log.Infra/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+  #  networks:
+  #    - log-compose-network
       
   grafana:
     image: grafana/grafana
     container_name: grafana
     restart: always
-    depends_on:
-      - influxdb
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_INSTALL_PLUGINS=
+    depends_on:
+      - influxdb
     links:
       - influxdb
     ports:
