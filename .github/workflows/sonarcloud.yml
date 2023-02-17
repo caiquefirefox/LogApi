@@ -11,6 +11,10 @@ on:
         description: "Execute CI/CD"
         required: false
         default: "Execute CI/CD manually"
+
+env:
+  PROJECT_PATH: ./src/Log.API/Log.API.csproj
+
 jobs:
   build:
     name: Build and analyze
