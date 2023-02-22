@@ -49,6 +49,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
+          cd src
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"caiquefirefox_LogApi" /o:"caiquefirefox" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build Log.API/Log.API.csproj --no-restore -c Release -o out
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
